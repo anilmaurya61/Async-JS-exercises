@@ -35,8 +35,9 @@ async function writeSentences(sentences,) {
 
 async function readFileAndSplitToSentences(inputFileName) {
     try {
-        const data = await fs.readFile(inputFileName, 'utf-8');
-        const sentences = data.split('. ');
+        let data = await fs.readFile(inputFileName, 'utf-8');
+        let lowerCaseData = data.toLocaleLowerCase();
+        const sentences = lowerCaseData.split('. ');
         await writeSentences(sentences);
     }
     catch (err) {
