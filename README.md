@@ -9,21 +9,19 @@ In this exercises, we'll create a directory of 3 random JSON files programmatica
 **Implementation**:
 
 - Create a directory:
-  - Use `fs.mkdir` to create a directory named "json_files".
+  - Use `fs.mkdir` to create a directory named "JSON Files".
 - Create JSON files:
-  - Use a loop to create 3 random JSON files inside the "json_files" directory.
   - For each file, use `fs.writeFile` to write JSON data into the file.
 - Delete JSON files concurrently:
-  - Use `fs.readdir` to read the contents of the "json_files" directory.
-  - Loop through the list of files and use `fs.unlink` to delete them.
-  - Finally, use `fs.rmdir` to remove the "json_files" directory itself.
+  - use `fs.unlink` to delete them.
+  - Finally, use `fs.rmdir` to remove the "JSON Files" directory itself.
 
 ### Part 2: Using Callbacks and Promises
 
 **Implementation**:
 
 - Follow the same steps as Part 1 to create and delete JSON files.
-- To make the implementation more efficient, wrap the asynchronous file operations in promises using the `util.promisify` function.
+- To make the implementation more efficient, wrap the asynchronous file operations in promises using the `fs..promises` function.
 
 ### Part 3: Using Async/Await
 
@@ -44,6 +42,4 @@ In Problem 2, we'll use async/await to read a file, transform its content, and p
 4. Read the new files, sort their content, and write it to a new file called `sorted.txt`. Store the new filename in `filenames.txt`.
 5. Read the contents of `filenames.txt` and delete all the new files mentioned in that list concurrently.
 
-By breaking down the tasks into separate functions and chaining them together in a main async function, we can efficiently handle the asynchronous file operations in Problem 2.
-
-**Note**: Ensure that you have the necessary error handling for file operations and appropriate file paths.
+By breaking down the tasks into separate functions and chaining them together in a main async function.
