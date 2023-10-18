@@ -1,12 +1,12 @@
 const fs = require('fs').promises;
 
 function createJsonFiles(callback) {
-    fs.writeFile('./JSON Files/File1.js', JSON.stringify("This is a JSON-1 file", null, 2))
+    fs.writeFile('./JSON Files/File1.json', JSON.stringify({ message: "This is a JSON-1 file" }, null, 2))
         .then(() => {
-            return fs.writeFile('./JSON Files/File2.js', JSON.stringify("This is a JSON-2 file", null, 2));
+            return fs.writeFile('./JSON Files/File2.json', JSON.stringify({ message: "This is a JSON-2 file"}, null, 2));
         })
         .then(() => {
-            return fs.writeFile('./JSON Files/File3.js', JSON.stringify("This is a JSON-3 file", null, 2));
+            return fs.writeFile('./JSON Files/File3.json', JSON.stringify({ message: "This is a JSON-3 file"}, null, 2));
         })
         .then(() => {
             console.log('All files written successfully');
@@ -17,12 +17,12 @@ function createJsonFiles(callback) {
         });
 }
 function deleteJsonFiles() {
-    fs.unlink('./JSON Files/File1.js')
+    fs.unlink('./JSON Files/File1.json')
     .then(() => {
-        return fs.unlink('./JSON Files/File2.js')
+        return fs.unlink('./JSON Files/File2.json')
     })
     .then(() => {
-        return fs.unlink('./JSON Files/File3.js')
+        return fs.unlink('./JSON Files/File3.json')
     })
     .then(() => {
         console.log('All files deleted successfully')

@@ -5,7 +5,7 @@ async function createJsonFiles(callback) {
         await fs.writeFile('./JSON Files/File1.json', JSON.stringify({ message: "This is a JSON-1 file" }, null, 2));
         await fs.writeFile('./JSON Files/File2.json', JSON.stringify({ message: "This is a JSON-2 file" }, null, 2));
         await fs.writeFile('./JSON Files/File3.json', JSON.stringify({ message: "This is a JSON-3 file" }, null, 2));
-        console.log("JSON files created successfully");
+        console.log("All files created successfully");
         callback();
     } catch (err) {
         console.error("Error", err);
@@ -17,7 +17,7 @@ async function deleteJsonFiles(){
         await fs.unlink('./JSON Files/File1.json');
         await fs.unlink('./JSON Files/File2.json');
         await fs.unlink('./JSON Files/File3.json');
-        console.log("JSON files deleted successfully");
+        console.log("All files deleted successfully");
         await fs.rmdir('./JSON Files');
     } catch (err) {
         console.error("Error", err);

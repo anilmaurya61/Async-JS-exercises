@@ -2,15 +2,15 @@ const fs = require('fs');
 const path = require('path');
 
 function createJsonFiles(callback) {
-    fs.writeFile(`./JSON Files/File1.js`, JSON.stringify({}, null, 2), (err) => {
+    fs.writeFile(`./JSON Files/File1.json`, JSON.stringify({}, null, 2), (err) => {
         if (err) {
             console.error(err);
         } else {
-            fs.writeFile(`./JSON Files/File2.js`, JSON.stringify({}, null, 2), (err) => {
+            fs.writeFile(`./JSON Files/File2.json`, JSON.stringify({}, null, 2), (err) => {
                 if (err) {
                     console.error(err);
                 } else {
-                    fs.writeFile(`./JSON Files/File3.js`, JSON.stringify({}, null, 2), (err) => {
+                    fs.writeFile(`./JSON Files/File3.json`, JSON.stringify({}, null, 2), (err) => {
                         if (err) {
                             console.error(err);
                         } else {
@@ -25,17 +25,17 @@ function createJsonFiles(callback) {
 }
 
 function deleteJsonFiles() {
-    fs.unlink(`./JSON Files/File1.js`, (err) => {
+    fs.unlink(`./JSON Files/File1.json`, (err) => {
         if (err) {
             console.log(err);
         }
         else {
-            fs.unlink(`./JSON Files/File2.js`, (err) => {
+            fs.unlink(`./JSON Files/File2.json`, (err) => {
                 if (err) {
                     console.log(err);
                 }
                 else {
-                    fs.unlink(`./JSON Files/File3.js`, (err) => {
+                    fs.unlink(`./JSON Files/File3.json`, (err) => {
                         if (err) {
                             console.log(err);
                         }
