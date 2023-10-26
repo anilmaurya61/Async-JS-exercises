@@ -8,7 +8,7 @@ const {
 
 async function main() {
     try {
-        const data = await readFile('lipsum.txt');
+        const data = await readFile('./../lipsum.txt');
         await convertFileToUpperCase(data, 'uppercase.txt')
         await readFileAndSplitToSentences('uppercase.txt');
         await readAndSortFiles('filenames.txt');

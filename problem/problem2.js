@@ -1,48 +1,33 @@
 const fs = require('fs').promises;
 
 async function readFile(fileName) {
-    try {
-        const data = await fs.readFile(fileName, 'utf-8');
-        return data;
-    } catch (err) {
-        throw err;
-    }
+    return fs.readFile(fileName, 'utf-8');
 }
 
 async function convertFileToUpperCase(data, outputFileName) {
-    try {
-        const dataUpperCase = data.toUpperCase();
-        await fs.writeFile('uppercase.txt', dataUpperCase);
-        await fs.writeFile('filenames.txt', 'uppercase.txt' + '\n');
-    }
-    catch (err) {
-        console.error("Error: ", err);
-    }
+    const dataUpperCase = data.toUpperCase();
+    return Promise.all([
+        fs.writeFile('uppercase.txt', dataUpperCase),
+        fs.writeFile('filenames.txt', 'uppercase.txt' + '\n')
+    ]);
 }
 
-async function writeSentences(sentences,) {
-    try {
-        for (let i = 0; i < sentences.length-1; i++) {
-            const sentence = sentences[i];
-            await fs.writeFile(`sentence${i + 1}.txt`, sentence);
-            await fs.appendFile('filenames.txt', `sentence${i + 1}.txt\n`);
-        }
-    }
-    catch (err) {
-        console.error("Error: ", err);
-    }
+async function writeSentences(sentences) {
+    const writePromises = sentences.map((sentence, index) => {
+        return Promise.all([
+            fs.writeFile(`sentence${index + 1}.txt`, sentence),
+            fs.appendFile('filenames.txt', `sentence${index + 1}.txt\n`)
+        ]);
+    });
+
+    return Promise.all(writePromises);
 }
 
 async function readFileAndSplitToSentences(inputFileName) {
-    try {
-        let data = await fs.readFile(inputFileName, 'utf-8');
-        let lowerCaseData = data.toLocaleLowerCase();
-        const sentences = lowerCaseData.split('. ');
-        await writeSentences(sentences);
-    }
-    catch (err) {
-        console.error("Error: ", err);
-    }
+    let data = await fs.readFile(inputFileName, 'utf-8');
+    let lowerCaseData = data.toLocaleLowerCase();
+    const sentences = lowerCaseData.split('. ');
+    return writeSentences(sentences);
 }
 
 function sortContent(content) {
@@ -52,40 +37,42 @@ function sortContent(content) {
 }
 
 async function readAndSortFiles(inputFileName) {
-    try {
-        const data = await fs.readFile(inputFileName, 'utf-8');
-        const fileNames = data.split('\n');
-        let fileNamesLength = fileNames.length;
-        for (let i = 1; i < fileNamesLength - 1; i++) {
-            let fileName = fileNames[i];
-            let content = await fs.readFile(fileName, 'utf-8');
-            let sortedContent = sortContent(content);
-            await fs.writeFile(`sorted${i}.txt`, sortedContent);
-            await fs.appendFile('filenames.txt', `sorted${i}.txt\n`);
-        }
+    const data = await fs.readFile(inputFileName, 'utf-8');
+    const fileNames = data.split('\n');
+    let fileNamesLength = fileNames.length;
+
+    const writePromises = [];
+
+    for (let i = 1; i < fileNamesLength - 1; i++) {
+        let fileName = fileNames[i];
+        let content = await fs.readFile(fileName, 'utf-8');
+        let sortedContent = sortContent(content);
+        writePromises.push(
+            fs.writeFile(`sorted${i}.txt`, sortedContent),
+            fs.appendFile('filenames.txt', `sorted${i}.txt\n`)
+        );
     }
-    catch (err) {
-        console.error("Error: ", err);
-    }
+
+    return Promise.all(writePromises);
 }
 
 async function deleteFilesConcurrently(fileName) {
-    try {
-        const data = await fs.readFile(fileName, 'utf-8');
-        const fileNames = data.split('\n');
+    const data = await fs.readFile(fileName, 'utf-8');
+    const fileNames = data.split('\n');
 
-        let fileNamesLength = fileNames.length;
-        for (let i = 0; i < fileNamesLength - 1; i++) {
-            let fileName = fileNames[i];
-            await fs.unlink(fileName);
-        }
-        await fs.unlink('filenames.txt');
+    let fileNamesLength = fileNames.length;
+
+    const deletePromises = [];
+
+    for (let i = 0; i < fileNamesLength - 1; i++) {
+        let fileName = fileNames[i];
+        deletePromises.push(fs.unlink(fileName));
     }
-    catch (err) {
-        console.error("Error: ", err);
-    }
+
+    deletePromises.push(fs.unlink('filenames.txt'));
+
+    return Promise.all(deletePromises);
 }
-
 
 module.exports = {
     readFile,
